@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/keyguard_manager_androaid.iml" filepath="$PROJECT_DIR$/keyguard_manager_androaid.iml" />
+      <module fileurl="file://$PROJECT_DIR$/android/keyguard_manager_androaid_android.iml" filepath="$PROJECT_DIR$/android/keyguard_manager_androaid_android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/example/android/keyguard_manager_androaid_example_android.iml" filepath="$PROJECT_DIR$/example/android/keyguard_manager_androaid_example_android.iml" />
+    </modules>
+  </component>
+</project>
