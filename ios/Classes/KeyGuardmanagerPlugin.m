@@ -1,11 +1,11 @@
-#import "KeyguardManagerAndroaidPlugin.h"
+#import "KeyGuardmanagerPlugin.h"
 
-@implementation KeyguardManagerAndroaidPlugin
+@implementation KeyGuardmanagerPlugin
 + (void)registerWithRegistrar:(NSObject<FlutterPluginRegistrar>*)registrar {
   FlutterMethodChannel* channel = [FlutterMethodChannel
-      methodChannelWithName:@"keyguard_manager_androaid"
+      methodChannelWithName:@"key_guardmanager"
             binaryMessenger:[registrar messenger]];
-  KeyguardManagerAndroaidPlugin* instance = [[KeyguardManagerAndroaidPlugin alloc] init];
+  KeyGuardmanagerPlugin* instance = [[KeyGuardmanagerPlugin alloc] init];
   [registrar addMethodCallDelegate:instance channel:channel];
 }
 

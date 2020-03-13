@@ -1,4 +1,4 @@
-group 'com.keyandroidmanager.keyguard_manager_androaid'
+group 'com.example.key_guardmanager'
 version '1.0'
 
 buildscript {

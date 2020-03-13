@@ -1,9 +1,9 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:keyguard_manager_androaid/keyguard_manager_androaid.dart';
+import 'package:key_guardmanager/key_guardmanager.dart';
 
 void main() {
-  const MethodChannel channel = MethodChannel('keyguard_manager_androaid');
+  const MethodChannel channel = MethodChannel('key_guardmanager');
 
   TestWidgetsFlutterBinding.ensureInitialized();
 
@@ -17,7 +17,7 @@ void main() {
     channel.setMockMethodCallHandler(null);
   });
 
-  test('getPlatformVersion', () async {
-    expect(await KeyguardManagerAndroaid.authCheck, '42');
+  test('getAuthStatus', () async {
+    expect(await KeyGuardmanager.authStatus, '42');
   });
 }

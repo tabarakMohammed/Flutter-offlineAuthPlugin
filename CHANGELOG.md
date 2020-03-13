@@ -1,3 +1,5 @@
 ## 0.0.1
-
-* TODO: initial.
+*initial release.
+## 0.0.2
+* fix bugs
+* fix crashing  app
