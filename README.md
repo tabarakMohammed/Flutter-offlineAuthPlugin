@@ -1,4 +1,4 @@
-# key guard manager For Android from 5.0 Lollipop version
+# key guard manager For Android from 5.0 Lollipop version and higher
 
 
 A new flutter plugin project. keyguard_manager_androaid for Local_auth
