@@ -11,7 +11,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  String _checkAuth = 'false';
+  String? _checkAuth = 'false';
 
   @override
   void initState() {
@@ -21,7 +21,7 @@ class _MyAppState extends State<MyApp> {
 
   // Platform messages are asynchronous, so we initialize in an async method.
   Future<void> initPlatformState() async {
-    String platformAuth;
+    String? platformAuth;
     // Platform messages may fail, so we use a try/catch PlatformException.
     try {
       platformAuth = await KeyGuardmanager.authStatus;
