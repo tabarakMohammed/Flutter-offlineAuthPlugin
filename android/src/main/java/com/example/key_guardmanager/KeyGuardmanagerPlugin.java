@@ -3,38 +3,35 @@ package com.example.key_guardmanager;
 import android.app.Activity;
 import android.app.KeyguardManager;
 import android.content.Intent;
+
+import androidx.annotation.NonNull;
+
+import org.jetbrains.annotations.NotNull;
+
+import io.flutter.embedding.engine.plugins.FlutterPlugin;
+import io.flutter.embedding.engine.plugins.activity.ActivityAware;
+import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding;
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.PluginRegistry;
-import io.flutter.plugin.common.PluginRegistry.Registrar;
 
 import static android.content.Context.KEYGUARD_SERVICE;
 
 /** KeyGuardmanagerPlugin */
-public class KeyGuardmanagerPlugin implements MethodCallHandler {
+public class KeyGuardmanagerPlugin implements MethodCallHandler,  FlutterPlugin, ActivityAware {
   /** Plugin registration. */
   private static final int REQUEST_CODE = 1; /** code for enter  to on activity when user need  */
   private static MethodChannel.Result result; /** callBack messenger send binary value to the another packages   */
-  private static PluginRegistry.Registrar instance; /** instance of object that using to connect with flutter   */
+  private static ActivityPluginBinding instanceActivity;
 
-  /** Plugin registration. */
-  public static void registerWith(Registrar registrar) {
+  @Override
+  public void onAttachedToActivity(@NonNull @NotNull ActivityPluginBinding binding) {
 
-    if (registrar.activity() == null) {
-      // If a background flutter view tries to register the plugin, there will be no activity from the registrar,
-      // we stop the registering process immediately because requires an activity.
-      return;
-    }
+  
+    instanceActivity = binding;
 
-    final MethodChannel channel = new MethodChannel(registrar.messenger(), "key_guardmanager");
-    channel.setMethodCallHandler(new KeyGuardmanagerPlugin());
-
-    instance = registrar;
-    /**  Adds a callback allowing the plugin to take part in handling
-     *  incoming calls to Activity.onActivityResult(int, int, Intent).
-     */
-    instance.addActivityResultListener(new PluginRegistry.ActivityResultListener() {
+    instanceActivity.addActivityResultListener(new PluginRegistry.ActivityResultListener() {
 
       @Override
       public boolean onActivityResult(int requestCode, int resultCode, final Intent data) {
@@ -60,23 +57,60 @@ public class KeyGuardmanagerPlugin implements MethodCallHandler {
     });
   }
 
+
+
+
+  @Override
+  public void onDetachedFromActivityForConfigChanges() {
+
+  }
+
+  @Override
+  public void onReattachedToActivityForConfigChanges(@NonNull @NotNull ActivityPluginBinding binding) {
+
+  }
+
+  @Override
+  public void onDetachedFromActivity() {
+
+  }
+
+  /** instance of object that using to connect with flutter   */
+
+
+
+  @Override
+  public void onAttachedToEngine(@NonNull @NotNull FlutterPluginBinding binding) {
+    final MethodChannel channel = new MethodChannel(binding.getBinaryMessenger(), "key_guardmanager");
+    channel.setMethodCallHandler(new KeyGuardmanagerPlugin());
+  }
+
+  @Override
+  public void onDetachedFromEngine(@NonNull @NotNull FlutterPluginBinding binding) {
+
+  }
+
+
+
   private static void runOnUiThread(final MethodChannel.Result result, final String authStatets, final boolean success) {
 
     /**  started thread run on Main Thread */
-    instance.activity().runOnUiThread(new Runnable() {
-      @Override
-      public void run() {
+      instanceActivity.getActivity().runOnUiThread(new Runnable() {
+        @Override
+        public void run() {
 
-        if (success) {
-          result.success(authStatets);
-        } else if (authStatets != null) {
-          result.error("KEY Guard Manager", authStatets, "Auth Filed");
-        } else {
-          result.notImplemented();
+          if (success) {
+            result.success(authStatets);
+          } else if (authStatets != null) {
+            result.error("KEY Guard Manager", authStatets, "Auth Filed");
+          } else {
+            result.notImplemented();
+          }
+
         }
+      });
 
-      }
-    });
+
   }
 
   @Override
@@ -96,9 +130,11 @@ public class KeyGuardmanagerPlugin implements MethodCallHandler {
 
   private  void getPassCode(){
 
+    KeyguardManager km;
 
 
-    KeyguardManager km = (KeyguardManager) instance.activity().getSystemService(KEYGUARD_SERVICE);
+       km = (KeyguardManager) instanceActivity.getActivity().getSystemService(KEYGUARD_SERVICE);
+
     if (km.isKeyguardSecure()) {
       Intent authIntent = null;
       if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
@@ -110,7 +146,8 @@ public class KeyGuardmanagerPlugin implements MethodCallHandler {
       if (authIntent != null) {
         try {
 
-          instance.activity().startActivityForResult(authIntent, REQUEST_CODE);
+
+            instanceActivity.getActivity().startActivityForResult(authIntent, REQUEST_CODE);
 
 
         } catch (Exception e) {

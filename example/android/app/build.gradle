@@ -39,6 +39,8 @@ android {
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        //Add this ndk block of code to your build.gradle
+
     }
 
     buildTypes {
@@ -48,6 +50,7 @@ android {
             signingConfig signingConfigs.debug
         }
     }
+
 }
 
 flutter {
